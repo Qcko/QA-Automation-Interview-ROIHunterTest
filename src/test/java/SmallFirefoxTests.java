@@ -77,7 +77,7 @@ public class SmallFirefoxTests {
         Verify.verify(driver.getCurrentUrl().contains(result));
     }
 
-    @Test(groups = "form")
+    @Test(groups = "formSF")
     public void TMobileContactUsFormPage_fillInSubjectField_fieldFilledIn() {
         /**checks if you can fill up subject field**/
         String result = "form-control success-field";
@@ -88,7 +88,7 @@ public class SmallFirefoxTests {
         Verify.verify(driver.findElement(By.id("ContactFormPortlet_WAR_ibaczfaqportletportlet_INSTANCE_KlFUaBS7XQQasubject")).getAttribute("class").contains(result));
     }
 
-    @Test(groups = "form")
+    @Test(groups = "formSF")
     public void TMobileContactUsFormPage_fillInTextField_fieldFilledIn() {
         /**checks if you can fill up text field**/
         String result = "form-control success-field";
@@ -99,7 +99,7 @@ public class SmallFirefoxTests {
         Verify.verify(driver.findElement(By.id("ContactFormPortlet_WAR_ibaczfaqportletportlet_INSTANCE_KlFUaBS7XQQacontent")).getAttribute("class").contains(result));
     }
 
-    @Test(groups = "form")
+    @Test(groups = "formSF")
     public void TMobileContactUsFormPage_fillInPhoneNumberField_fieldFilledIn() {
         /**checks if you can fill up phone number field**/
         String result = "form-control success-field";
@@ -138,7 +138,7 @@ public class SmallFirefoxTests {
         Verify.verify(newChildElement.getText().contains(result));
     }
 
-    @Test(groups = "form")
+    @Test(groups = "formSF")
     public void TMobileContactUsFormPage_fillInEmailField_fieldFilledIn() {
         /**checks if you can fill up email field**/
         String result = "form-control success-field";
@@ -163,7 +163,7 @@ public class SmallFirefoxTests {
         Verify.verify(newChildElement.getText().contains(result));
     }
 
-    @Test(groups = "form", dependsOnMethods = "TMobileHomepage_acceptCookieUseAgreement_popUpNotDisplayed")
+    @Test(groups = "formSF", dependsOnMethods = "TMobileHomepage_acceptCookieUseAgreement_popUpNotDisplayed")
     public void TMobileContactUsFormPage_checkCheckbox_checkboxIsChecked() {
         /**checks if you can check the checkbox**/
         String result = "active";
@@ -175,7 +175,7 @@ public class SmallFirefoxTests {
         Verify.verify(driver.findElement(By.cssSelector("span.like-checkbox.ico-check-mark")).getAttribute("class").contains(result));
     }
 
-    @Test(groups = "form")
+    @Test(groups = "formSF")
     public void TMobileContactUsFormPage_uploadFile_fileUploaded() throws Exception {
         /**checks if you can insert a file**/
         String result = "test.txt";
@@ -184,7 +184,7 @@ public class SmallFirefoxTests {
         Verify.verify(driver.findElement(By.xpath("//*[@id=\"_ContactFormPortlet_WAR_ibaczfaqportletportlet_INSTANCE_KlFUaBS7XQQa_fileList\"]")).getText().contains(result));
     }
 
-    @Test(dependsOnGroups = "form")
+    @Test(dependsOnGroups = "formSF")
     public void TMobileContactUsFormPage_submitForm_formSubmitted() throws Exception {
         /**checks if after filling up form and sending it, the page gives you new form**/
         String result = "https://www.t-mobile.cz/podpora/kontaktujte-nas";
