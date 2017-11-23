@@ -41,16 +41,20 @@ public class TMobileHomepage {
             hover.moveToElement(link).build().perform();
             link.click();
             hover.release();
-            TMobileHelp.goToLink(driver, "se na");                    //clicks link with Obratte se na nas
+            TMobileHelpPage.goToLink(driver, "se na");                    //clicks link with Obratte se na nas
         }
     }
 
-    public static void cookie(WebDriver driver) throws Exception {
+    public static void acceptCookieUseAgreement(WebDriver driver) {
         WebDriverWait wait = new WebDriverWait(driver, 10);
-        WebElement cookie = driver.findElement(By.id("cookieUseAgreementBtn"));
-        wait.until(ExpectedConditions.elementToBeClickable(cookie));
-        Cookie ck = new Cookie("cookieUseAgreement", "true");
-        driver.manage().addCookie(ck);
-        driver.navigate().refresh();
+        try {
+            WebElement cookie = driver.findElement(By.id("cookieUseAgreementBtn"));
+            wait.until(ExpectedConditions.elementToBeClickable(cookie));
+            Cookie ck = new Cookie("cookieUseAgreement", "true");
+            driver.manage().addCookie(ck);
+            driver.navigate().refresh();
+        } catch (Exception e) {
+            System.out.println(e.getClass().getSimpleName() + " - " + e.getMessage());
+        }
     }
 }

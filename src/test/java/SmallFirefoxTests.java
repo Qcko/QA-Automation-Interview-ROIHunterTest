@@ -1,13 +1,28 @@
 import com.google.common.base.Verify;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class Tests {
-    public WebDriver driver = new ChromeDriver();
+import java.util.concurrent.TimeUnit;
+
+public class SmallFirefoxTests {
+    public Browser browser = new Browser();
+    public WebDriver driver = new FirefoxDriver();
+
+    @BeforeClass
+    public void setBrowser() {
+        Browser smallFirefox = new Browser();
+        smallFirefox.setName("smallFirefox");
+        smallFirefox.setType(BrowserTypes.FIREFOX);
+        smallFirefox.setWidth(900);
+        browser = smallFirefox;
+        driver.manage().window().setSize(new Dimension(browser.getWidth(), 980));
+    }
 
     @Test
     public void GooglePage_goToPage_pageLoaded() throws Exception {
@@ -60,17 +75,6 @@ public class Tests {
         driver.get("https://www.t-mobile.cz/podpora/obratte-se-na-nas");
         TMobileContactUsPage.goToLink(driver, "formul");
         Verify.verify(driver.getCurrentUrl().contains(result));
-    }
-
-    @Test(groups = "form")
-    public void TMobileContactUsFormPage_fillInField_fieldFilledIn() {
-        /**checks if fillInField metod works**/
-        String result = "form-control success-field";
-        driver.get("https://www.t-mobile.cz/podpora/kontaktujte-nas");
-        TMobileContactUsFormPage.fillInField(driver, "ContactFormPortlet_WAR_ibaczfaqportletportlet_INSTANCE_KlFUaBS7XQQasubject", "DELETE: Pokusny dotaz");
-        //clears focus on that field so javascript on the page validates the field
-        driver.findElement(By.id("ContactFormPortlet_WAR_ibaczfaqportletportlet_INSTANCE_KlFUaBS7XQQacontent")).click();
-        Verify.verify(driver.findElement(By.id("ContactFormPortlet_WAR_ibaczfaqportletportlet_INSTANCE_KlFUaBS7XQQasubject")).getAttribute("class").contains(result));
     }
 
     @Test(groups = "form")
@@ -197,11 +201,19 @@ public class Tests {
         //so i am checking it differently
         //after submitting the new form is pulled up which changes url
         //so i am checking if the url changed
+
+        //this code is really bad because of the implicit wait but problem is that firefox is sending out commands before it is loaded as seen if you compare the two urls
+        String url = driver.getCurrentUrl();
+        System.out.println("www " + url);
+        TimeUnit.SECONDS.sleep(5);         // :(
+        String url2 = driver.getCurrentUrl();
+        System.out.println("www2 " + url2);
+
         Verify.verify(!driver.getCurrentUrl().equals(result));
     }
 
     @Test
-    public void TMobileContactUsFormPage_submitForm_errorForNotFillingUpAllRequiredFields() {
+    public void TMobileContactUsFormPage_submitForm_errorForNotFillingUpAllRequiredFields() throws Exception {
         /**checks if form was not send when required fields are not filled up **/
         String result = "https://www.t-mobile.cz/podpora/kontaktujte-nas";
         String errorMsg = "form-control error-field";
@@ -211,7 +223,6 @@ public class Tests {
 
         //if there exist required field (they are marked by magenta * on the page)
         //click that field to run down javascript on the page to mark all required fields that are empty with error msg
-
         outerLoop1:
         for (WebElement element :
                 driver.findElements(By.cssSelector("span[class='text-magenta']"))
@@ -232,7 +243,6 @@ public class Tests {
         }
 
         //if there is still some required field with error msg change boolean to true
-
         outerLoop2:
         for (WebElement element :
                 driver.findElements(By.cssSelector("span[class='text-magenta']"))
@@ -261,6 +271,10 @@ public class Tests {
         } catch (Exception e) {
             System.out.println(e.getClass().getSimpleName() + " - " + e.getMessage());
         }
+
+        //this code is really bad because of the implicit wait but problem is that firefox is sending out commands before it is loaded and this must follow TMobileContactUsFormPage_submitForm_formSubmitted()
+        TimeUnit.SECONDS.sleep(5);         // :(
+
 
         //if boolean is true the form should not submit i.e. stays at the form page
         if (errorMsgExists == true) {
