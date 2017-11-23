@@ -2,7 +2,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class Firefox {
+public class FirefoxDriverBuilder {
     /** Builds firefox driver **/
 
     public static WebDriver inFirefox() {

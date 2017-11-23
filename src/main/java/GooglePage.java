@@ -20,7 +20,7 @@ public class GooglePage {
 
     public static void goToLink(WebDriver driver, String s) throws Exception {
         WebDriverWait wait = new WebDriverWait(driver, 30);
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.partialLinkText(s)));
+        wait.until(ExpectedConditions.elementToBeClickable(By.partialLinkText(s)));
 
         WebElement link = driver.findElement(By.partialLinkText(s));
         link.click();

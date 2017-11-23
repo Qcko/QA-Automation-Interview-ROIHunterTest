@@ -1,13 +1,26 @@
 import com.google.common.base.Verify;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class Tests {
+public class SmallChromeTests {
+    public Browser browser = new Browser();
     public WebDriver driver = new ChromeDriver();
+
+    @BeforeClass
+    public void setBrowser() {
+        Browser smallChrome = new Browser();
+        smallChrome.setName("smallChrome");
+        smallChrome.setType(BrowserTypes.CHROME);
+        smallChrome.setWidth(900);
+        browser = smallChrome;
+        driver.manage().window().setSize(new Dimension(browser.getWidth(), 980));
+    }
 
     @Test
     public void GooglePage_goToPage_pageLoaded() throws Exception {
@@ -60,17 +73,6 @@ public class Tests {
         driver.get("https://www.t-mobile.cz/podpora/obratte-se-na-nas");
         TMobileContactUsPage.goToLink(driver, "formul");
         Verify.verify(driver.getCurrentUrl().contains(result));
-    }
-
-    @Test(groups = "form")
-    public void TMobileContactUsFormPage_fillInField_fieldFilledIn() {
-        /**checks if fillInField metod works**/
-        String result = "form-control success-field";
-        driver.get("https://www.t-mobile.cz/podpora/kontaktujte-nas");
-        TMobileContactUsFormPage.fillInField(driver, "ContactFormPortlet_WAR_ibaczfaqportletportlet_INSTANCE_KlFUaBS7XQQasubject", "DELETE: Pokusny dotaz");
-        //clears focus on that field so javascript on the page validates the field
-        driver.findElement(By.id("ContactFormPortlet_WAR_ibaczfaqportletportlet_INSTANCE_KlFUaBS7XQQacontent")).click();
-        Verify.verify(driver.findElement(By.id("ContactFormPortlet_WAR_ibaczfaqportletportlet_INSTANCE_KlFUaBS7XQQasubject")).getAttribute("class").contains(result));
     }
 
     @Test(groups = "form")
@@ -211,7 +213,6 @@ public class Tests {
 
         //if there exist required field (they are marked by magenta * on the page)
         //click that field to run down javascript on the page to mark all required fields that are empty with error msg
-
         outerLoop1:
         for (WebElement element :
                 driver.findElements(By.cssSelector("span[class='text-magenta']"))
@@ -232,7 +233,6 @@ public class Tests {
         }
 
         //if there is still some required field with error msg change boolean to true
-
         outerLoop2:
         for (WebElement element :
                 driver.findElements(By.cssSelector("span[class='text-magenta']"))

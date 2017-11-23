@@ -6,23 +6,23 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 
-public class TMobileContactUsForm {
+public class TMobileContactUsFormPage {
     /**handles operations on contact us form**/
-    public static void fillIn(WebDriver driver, String field, String s) {
+    public static void fillInField(WebDriver driver, String field, String s) {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         WebElement inputField = driver.findElement(By.id(field));
         wait.until(ExpectedConditions.visibilityOf(inputField));
         inputField.sendKeys(s);
     }
 
-    public static void checkBox(WebDriver driver, String s) {
+    public static void checkCheckbox(WebDriver driver, String s) {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         WebElement checkBox = driver.findElement(By.cssSelector(s));
         wait.until(ExpectedConditions.elementToBeClickable(checkBox));
         checkBox.click();
     }
 
-    public static void insertFile(WebDriver driver, String s) throws Exception {
+    public static void uploadFile(WebDriver driver, String s) throws Exception {
         WebDriverWait wait = new WebDriverWait(driver, 10);
 
         //finds a button and hidden element to input file in
@@ -50,7 +50,7 @@ public class TMobileContactUsForm {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"_ContactFormPortlet_WAR_ibaczfaqportletportlet_INSTANCE_KlFUaBS7XQQa_fileList\"]")));
     }
 
-    public static void sent(WebDriver driver, String s) {
+    public static void submitForm(WebDriver driver, String s) {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         WebElement button = driver.findElement(By.id(s));
         wait.until(ExpectedConditions.elementToBeClickable(button));

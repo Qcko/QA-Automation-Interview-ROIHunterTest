@@ -4,7 +4,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class TMobileHelp {
+public class TMobileHelpPage {
     /**handles operations on help page**/
     public static void goToLink(WebDriver driver, String s) {
         WebDriverWait wait = new WebDriverWait(driver, 10);
